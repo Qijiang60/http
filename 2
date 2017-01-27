@@ -1,0 +1,464 @@
+1：什么是AJAX?
+
+AJAX是一组英文单词的简写，这组英文单词是 ：Asynchronous JavaScript and XML ，翻译成中文的意思是： 异步的JavaScript 和 XML。什么意思呢？简单点讲就是：通过HTML页面中的JavaScript方法能够不刷新整个页面的情况下实现和服务端进行交流返回对应的请求数据，而返回的数据常常是两种格式的，文本格式和XML格式的，但是文本格式比较简单使用XML格式的数据很容易替代掉，所以使用XML表示更加的贴切，现在常常返回JSON格式的数据！
+
+当然，异步好像没有解释，因为这是一个非常细微和隐秘的一个动作，在通过AJAX的引擎向后台服务器发送出请求后，JavaScript是不需要等待服务器的响应的（服务器的响应可能比较慢比较费时）而是先将控制权交给HTML页面本身，一边等待服务器的响应一边可以执行其他的脚本，当响应就绪后才对服务器端的响应进行对应的处理！在页面的体现是与服务器交换数据更新部分网页时，不会重新加载整个网页。
+
+传统WEB应用模式和AJAX应用模式区别在于AJAX引擎的作用，如下图所示：
+
+
+
+从上面我们也能感觉到，AJAX不是一种什么新的编程语言，她仅是一种使用老标准的新方法而已，这种方法使用了现有的一些标准，实现了在不加载整个网页的情况下能够与服务器进行交换数据并更新部分的网页。
+
+2：使用AJAX的好处？
+
+嗯，AJAX的最大特点就是他的价值所在，与服务器交互不需要刷新整个页面，这样的用户体验度更好，一边等待服务器的响应，一边又不耽误执行别的动作，这样的网页使用感觉会更爽一些！
+
+
+
+3：AJAX的核心是什么？
+
+从传统WEB应用模式和AJAX应用模式中我们也一定注意到了，其实他们相差无几，关键就是多了两点而已，一是服务器端返回的XML格式的数据，二是AJAX引擎。对于从服务器端返回什么样的数据，在这里意义稍微小一点，关键就在于AJAX引擎？那AJAX引擎是什么呢？我觉得是XMLHttpRequest对象，对就是它。
+
+
+
+4：XMLHttpRequest对象是什么？
+
+XMLHttpRequest对象是浏览器的一个内建对象，现在的主流浏览器均对其提供支持（IE7+、Firefox、Chrome、Safari以及Opera等等）。稍微需要注意的一点是IE5和IE6使用的是ActiveXObject对象，在最早的时候只有IE浏览器提供对应的支持，后来大多数主流浏览器也提供了支持，所以再后来就有了AJAX技术。
+
+作为一个内建的浏览器对象都有一些什么内容呢？请往下看：
+
+   1)XMLHttpRequest对象的属性
+
+属性	描述
+readyState
+当前HTTP 请求的状态，只读属性。
+responseText
+从服务器返回的当前HTTP请求的响应信息，或者称为目前为止从服务器接收到的响应体，文本格式的信息，只读属性。
+responseXML
+从服务器返回的当前HTTP请求的响应信息，解析为 XML 并作为 Document 对象返回，只读属性。
+status
+从服务器返回的当前HTTP请求的状态码，使用数字表示，只读属性。
+statusText
+从服务器返回的当前HTTP请求的响应行状态，使用名称表示，只读属性。
+responseBody	将响应信息正文以unsigned byte数组形式返回
+responseStream	以ADO Stream对象的形式返回响应信息
+   2)XMLHttpRequest对象的事件
+
+事件	描述
+onreadystatechange
+每次 readyState 属性改变的时候调用的事件句柄函数。当 readyState 为 3 时，它也可能调用多次。
+   3)XMLHttpRequest对象的方法
+
+方法	描述
+abort	取消当前响应，关闭连接并且结束任何未决的网络活动。
+getAllResponseHeaders	获取响应的所有HTTP头，把 HTTP 响应头部作为未解析的字符串返回。
+getResponseHeader	从响应信息中获取指定的HTTP头，返回指定的 HTTP 响应头部的值。
+open	创建一个新的HTTP请求,初始化 HTTP 请求参数，比如指定此请求的方法、URL和验证信息(用户名/密码)，但并不发送请求。
+send	发送 HTTP 请求，使用传递给 open() 方法的参数，以及传递给该方法的可选请求体。
+setRequestHeader	向一个打开但未发送的请求设置或添加一个 HTTP 请求。
+   4）XMLHttpRequest对象大致的控制流程
+
+
+
+上面的是大概的一个整体控制流程，让我们用一种更加细微角度再看看：
+
+
+
+   5）通过上面的介绍我们已经大概了解了XMLHttpRequest对象是什么、有什么作用、来自那里，下面让我们看看比较官方的语言是怎么来介绍XMLHttpRequest对象的。
+
+        XMLHttpRequest 对象
+
+XMLHttpRequest 是一个 JavaScript 对象,它最初由微软设计,随后被 Mozilla,Apple, 和 Google采纳. 如今,该对象已经被 W3C组织标准化. 通过它,你可以很容易的取回一个URL上的资源数据. 尽管名字里有XML, 但XMLHttpRequest 可以取回所有类型的数据资源,并不局限于XML。
+
+XMLHttpRequest 对象提供了对 HTTP 协议的完全的访问，包括做出 POST 和 HEAD 请求以及普通的 GET 请求的能力。XMLHttpRequest 可以同步或异步地返回 Web 服务器的响应，并且能够以文本或者一个 DOM 文档的形式返回内容。而且除了HTTP ,它还支持file 和 ftp 协议.
+
+XMLHttpRequest 对象是名为 AJAX 的 Web 应用程序架构的一项关键功能。
+
+       浏览器支持
+
+XMLHttpRequest 得到了所有现代浏览器较好的支持。唯一的浏览器依赖性涉及 XMLHttpRequest 对象的创建。在 IE 5 和 IE 6 中，必须使用特定于 IE 的 ActiveXObject() 构造函数。
+
+嗯，通过上面的介绍我们对XMLHttpRequest对象的认识就更加全面和专业一些了，不过我们还没有介绍怎么样使用它，所以，下面两小部分的内容分别介绍一下有关XMLHttpRequest对象的小代码段和常使用的属性与方法的更加详细的说明。
+
+   6）XMLHTTPRequest对象的简单代码段
+
+function ajaxMethod()
+{
+  //1：创建XMLHttpRequest对象
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+ //2：监听XMLHttpRequest对象的状态信息。每当 readyState 改变时，就会触发 onreadystatechange 事件（readyState 属性存有 XMLHttpRequest 的状态信息）
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    //DO SOMETHING FOR THE SERVER RESPONSE
+    }
+  }
+
+//3：初始化HTTP请求的信息
+xmlhttp.open("GET","URL",true);
+//4：将HTTP请求发送到服务器
+xmlhttp.send();
+}
+上面的这段简单的代码是不可用的，不过稍做修改就可能成为一个可用的AJAX方法了，当然，我们重点想说明的是，简单的封装一个AJAX方法使用到了XMLHttpRequest对象的那些方法和属性。当然，如果想封装一个更加健全和可靠的AJAX方法就必须详细的了解XMLHttpRequest对象的一些常用的方法和属性更加详尽的使用方式了！下面就是我想介绍的这些内容。
+
+   7）XMLHTTPRequest对象常用的属性和方法的详细说明
+
+        （1）XMLHTTPReuest对象的常用属性详解
+
+                     a：readyState
+
+readyState属性用于存储XMLHttpRequest对象的状态信息，当一个 XMLHttpRequest对象初次创建时，这个属性的值从 0 开始，直到接收到完整的 HTTP 响应，这个值增加到 4。readyState 的值不会递减，除非当一个请求在处理过程中的时候调用了 abort() 或 open() 方法。每次这个属性的值增加的时候，都会触发 onreadystatechange 事件。
+
+并且5 个状态中每一个都有一个相关联的非正式的名称，如下表所示：
+
+状态	名称	描述
+0	Uninitialized	请求未初始化，XMLHttpRequest 对象已创建但是尚未初始化或已被 abort() 方法重置
+1	Open	open() 方法已调用，服务器连接已建立，但是 send() 方法未调用。请求还没有被发送。
+2	Send	Send() 方法已调用，HTTP 请求已发送到 Web 服务器，请求已被接收，但还未接收到响应，当前的状态及http头未知
+3	Receiving	请求处理中，所有响应头部都已经接收到，响应体开始接收但未完成，因为响应及http头不全，这时通过responseBody和responseText获取部分数据会出现错误，
+4	Loaded	请求已完成，且HTTP 响应已经完全接收，响应已就绪，此时可以通过通过responseBody和responseText获取完整的回应数据
+b：status
+
+由服务器返回的 当前请求的HTTP 状态代码，如 200 表示成功，而 404 表示 “Not Found” 错误。当 readyState 小于 3 的时候读取这一属性会导致一个异常，仅当数据发送并接收完毕后才可获取。下表是常见的HTTP的状态码及其说明：
+
+序号	状态码	描述
+1	100	Continue
+2	101	Switching protocols
+3	200	OK
+4	201	Created
+5	202	Accepted
+6	203	Non-Authoritative Information
+7	204	No Content
+8	205	Reset Content
+9	206	Partial Content
+10	300	Multiple Choices
+11	301	Moved Permanently
+12	302	Found
+13	303	See Other
+14	304	Not Modified
+15	305	Use Proxy
+16	307	Temporary Redirect
+17	400	Bad Request
+18	401	Unauthorized
+19	402	Payment Required
+20	403	Forbidden
+21	404	Not Found
+22	405	Method Not Allowed
+23	406	Not Acceptable
+24	407	Proxy Authentication Required
+25	408	Request Timeout
+26	409	Conflict
+27	410	Gone
+28	411	Length Required
+29	412	Precondition Failed
+30	413	Request Entity Too Large
+31	414	Request-URI Too Long
+32	415	Unsupported Media Type
+33	416	Requested Range Not Suitable
+34	417	Expectation Failed
+35	500	Internal Server Error
+36	501	Not Implemented
+37	502	Bad Gateway
+38	503	Service Unavailable
+39	504	Gateway Timeout
+40	505	HTTP Version Not Supported
+c：statusText
+
+statusText属性用名称而不是数字指定了请求的 HTTP 的状态代码。也就是说，当状态为 200 的时候它是 “OK”，当状态为 404 的时候它是 “Not Found”。和 status 属性一样，当 readyState 小于 3 的时候读取这一属性会导致一个异常,也是仅当数据发送并接收完毕后才可获取。对应的名称参照上表。
+
+d：responseText
+
+responseText属性用于将来自服务器的响应信息作为字符串的形式返回。用它来存放到目前为止从服务器接收到的响应体（不包括头部），或者如果还没有接收到数据的话，就是空字符串。具体的存储时机如下：
+
+如果 readyState 小于 3，这个属性就是一个空字符串。当 readyState 为 3，这个属性返回目前已经接收的响应部分。如果 readyState 为 4，这个属性就保存了完整的响应体。如果响应包含了为响应体指定字符编码的头部，就使用该编码。
+e：responseXML
+
+responseXML属性用于将来自服务器的响应信息格式化为Xml Document对象并返回。使用该属性时，服务器端要生成XML格式的数据，还要把响应的content-type设置为text/html，如果响应体不是“text/xml”返回null。
+
+   （2）XMLHttpReuest对象的常用事件详解
+
+onreadystatechange事件，当HTTP请求被发送到服务器时，我们需要执行一些基于响应的任务。使用readyState来存放 XMLHttpRequest对象 的状态信息，当 readyState 改变时，就会触发 onreadystatechange 事件。所以，可以使用此事件来处理一些基本的响应任务，当然此事件的重点是来处理当服务器响应已做好被处理的准备时所执行的任务，即 readyState=4 并且 status=200的时候。
+
+   （3）XMLHttpReuest对象的常用方法详解 
+
+a：void open(string method,string url, boolean asynchronous[,string username][,string password])方法
+
+作用：
+
+初始化一个XMLHttpRequest对象，创建一个新的http请求，并指定此请求的方法、URL以及验证信息。
+
+参数：
+
+method：必选项，用于指定你想用来发送请求的HTTP方法(GET，POST，PUT，DELETE或HEAD)。为了把数据发送到服务器，应该使用POST方法；为了从服务器端检索数据，应该使用GET方法。
+
+url：必选项，用于指定XMLHttpRequest对象把请求发送到的服务器相应的URI。借助于window.document.baseURI属性，该uri被解析为一个绝对的URI-换句话说，你可以使用相对的URI-它将使用与浏览器解析相对的URI一样的方式被解析。
+
+asynchronous：必选项，用于指示这个调用是异步还是同步的，默认值为true，这表示请求本质上是异步的。如果这个参数为false，处理就会等待，直到从服务器返回响应为止。由于异步调用是使用Ajax的主要优点之一，所以倘若将这个参数设置为false，从某种程度上讲与使用XMLHttpRequest对象的初衷不太相符。在 某些情况下这,个参数设置为false也是有用的，比如在持久存储页面之前你可能想先验证用户的输入。
+
+username：可选项，对于要求认证的服务器，你可以提供可选的用户名参数。
+
+password：可选项，对于要求认证的服务器，你可以提供可选的口令参数。
+
+备注：
+
+在调用open()方法后，XMLHttpRequest对象把它的readyState属性设置为1并且把responseText、 responseXML、status和statusText属性复位到它们的初始值。另外，它还复位请求头部。注意，如果你调用open()方法并且此时readyState为4，则XMLHttpRequest对象将复位这些值。
+
+b：void send(content)方法
+
+作用：
+
+向服务器发出请求
+
+参数：
+
+content：可选项，可以是一个DOM对象的实例、一个输入流，或者是一个串。该参数可以包含可变类型的数据。典型地，你使用它并通过POST方法把数据发送到服务器。另外，你可以显式地使用null参数调用send()方法，这与不用参数调用它一样。对于大多数其它的数据类型，在调用send()方法之前，应该使用setRequestHeader()方法(见后面的解释)先设置 Content-Type头部。如果在send(data)方法中的data参数的类型为DOMString，那么，数据将被编码为UTF-8。如果数据 是Document类型，那么将使用由data.xmlEncoding指定的编码串行化该数据。注意，传入这个对象的内容会作为请求体的一部分发送。
+
+备注：
+
+在通过调用open()方法准备好一个请求之后，我们需要把该请求发送到服务器。仅当readyState值为1时，你才可以调用send()方法；否则的 话，XMLHttpRequest对象将引发一个异常。该请求被使用提供给open()方法的参数发送到服务器。当async参数为true 时，send()方法立即返回，从而允许其它客户端脚本处理继续。在调用send()方法后，XMLHttpRequest对象把readyState的 值设置为2(发送)。当服务器响应时，在接收消息体之前，如果存在任何消息体的话，XMLHttpRequest对象将把readyState设置为 3(正在接收中)。当请求完成加载时，它把readyState设置为4(已加载)。对于一个HEAD类型的请求，它将在把readyState值设置为 3后再立即把它设置为4。
+
+c：void setRequestHeader(string header, string value)方法
+
+作用：
+
+用来设置请求的头部信息，具体的是为HTTP请求中一个给定的首部设置值。
+
+参数：
+
+header：必选项，要设置的首部。
+
+value：必选项，要在首部中放置的值。
+
+备注：
+
+当readyState值为1时，你可以在调用open()方法后调用这个方法；否则，你将得到一个异常。换言之，这个方法必须在open()之后才能调用，并且如果已经存在已此名称命名的http头，则覆盖之。
+
+e：string getAllResponseHeaders()方法
+
+作用：
+
+获取完整的http头信息，以一个字符串形式返回所有的HTTP请求的所有响应首部，首部包括Content-Length、Date和URI。
+
+参数：无
+
+备注：每个http头名称和值用冒号分割，并以\r\n结束。如果readyState的值不是3或4，则该方法返回null。也即是当send方法完成后才可调用该方法。
+
+f：string getResponseHeader(string header)方法
+
+作用：
+
+返回指定首部的串值。
+
+参数：
+
+header：必选项，表示希望得到的哪一个首部的值。
+
+备注：
+
+仅当readyState值是3或4(换句话说，在响应头部可用以后)时，才可以调用这个方法；否则，该方法返回一个空字符串。也就是当send方法成功后才可调用该方法。
+
+g：void abort()方法
+
+   作用：
+
+暂停与一个XMLHttpRequest对象相联系的HTTP请求，从而把该对象复位到未初始化状态。
+
+参数：
+
+无
+
+备注：
+
+调用此方法后，当前请求返回UNINITIALIZED 状态。
+
+嗯，通过上面的总结，相信我们能比较容易的看明白下面的这两段小代码段啦！
+
+1）一份把相关的方法基本都封装全了的XmlHttpRequest对象的JS文件(网上下载的)，此JS文件的详细定义如下：
+
+function CallBackObject()
+ {
+   this.XmlHttp = this.GetHttpObject();
+ }
+  
+  //获得XMLHttpRequest对象
+ CallBackObject.prototype.GetHttpObject = function()
+ { 
+   var xmlhttp;
+   if (!xmlhttp && xmlhttp typeof XMLHttpRequest != 'undefined') 
+   {
+        try 
+        {
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+              xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+              xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+        } 
+        catch (e) 
+        {
+          xmlhttp = false;
+        }
+   }
+  return xmlhttp;
+}
+ 
+ //处理服务器响应的回调函数
+CallBackObject.prototype.DoCallBack = function(URL)
+{ 
+  if( this.XmlHttp )
+  {
+    if( this.XmlHttp.readyState == 4 || this.XmlHttp.readyState == 0 )
+    {
+      var oThis = this;
+      this.XmlHttp.open('POST', URL);
+      this.XmlHttp.onreadystatechange = function(){ oThis.ReadyStateChange(); };
+      this.XmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      this.XmlHttp.send(null);
+    }
+  }
+}
+ 
+ //取消当前响应的回调函数
+CallBackObject.prototype.AbortCallBack = function()
+{
+  if( this.XmlHttp )
+    this.XmlHttp.abort();
+}
+ 
+ //服务器已连接时的回调函数
+CallBackObject.prototype.OnLoading = function()
+{
+  // Loading
+}
+ 
+ //请求已接受时的回调函数
+CallBackObject.prototype.OnLoaded = function()
+{
+  // Loaded
+}
+ 
+ //请求处理中的回调函数
+CallBackObject.prototype.OnInteractive = function()
+{
+  // Interactive
+}
+ 
+ //请求已完成，且响应就绪时的回调函数
+CallBackObject.prototype.OnComplete = function(responseText, responseXml)
+{
+  // Complete
+}
+ 
+ //请求未初始化时的回调函数
+CallBackObject.prototype.OnAbort = function()
+{
+  // Abort
+}
+ 
+ //状态异常时的处理函数
+CallBackObject.prototype.OnError = function(status, statusText)
+{
+  // Error
+}
+ 
+ //XMLHttpRequest对象的状态改变时的处理函数
+CallBackObject.prototype.ReadyStateChange = function()
+{
+  if( this.XmlHttp.readyState == 1 )
+  {
+    this.OnLoading();
+  }
+  else if( this.XmlHttp.readyState == 2 )
+  {
+   this.OnLoaded();
+  }
+  else if( this.XmlHttp.readyState == 3 )
+  {
+   this.OnInteractive();
+  }
+  else if( this.XmlHttp.readyState == 4 )
+  {
+   if( this.XmlHttp.status == 0 )
+      this.OnAbort();
+    else if( this.XmlHttp.status == 200 && this.XmlHttp.statusText == "OK" )
+      this.OnComplete(this.XmlHttp.responseText, this.XmlHttp.responseXML);
+    else
+      this.OnError(this.XmlHttp.status, this.XmlHttp.statusText, this.XmlHttp.responseText);   
+  }
+}
+2）改写的一段W3C测试AJAX方法的代码，学习编程最好是理论结合实践自己动手实验一下，说不定能发现许多意想不到的事情！
+
+     a：联网的情况下，在浏览器地址栏输入：http://www.w3school.com.cn/tiy/t.asp?f=ajax_async_true
+
+b：然后将下面的代码输入到测试代码的编辑区：
+
+<html>
+<head>
+<script type="text/javascript">
+function show(whereRun)
+{
+  var para=document.createElement("p");
+  var node=document.createTextNode(whereRun+"--- the time is :"+new Date().getTime());
+  para.appendChild(node);
+
+  var element=document.getElementById("show");
+  element.appendChild(para);
+}
+function loadXMLDoc()
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+xmlhttp.onreadystatechange=function()
+  {
+     show("readyState is :"+xmlhttp.readyState+" --- status is :"+xmlhttp.status);
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+
+show("open is running,before!------------");
+xmlhttp.open("GET","/ajax/test1.txt",true);
+show("open is running,after!-------------");
+
+show("send is running,before!------------");
+xmlhttp.send();
+show("send is running,after!-------------");
+}
+</script>
+</head>
+<body>
+
+<div id="myDiv"><h2>Let AJAX change this text</h2></div>
+<button type="button" onclick="loadXMLDoc()">通过 AJAX 改变内容</button>
+<div id='show'></div>
+
+</body>
+</html>
+c：点击测试代码编辑区上边的“提交代码”按钮
+
+d：点击查看结果取里面的“通过AJAX改变内容”按钮
+
+e：我的运行
